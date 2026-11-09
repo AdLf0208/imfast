@@ -1,0 +1,20 @@
+[package]
+# Port of I'm Fast 1.0.3 (Gabriel-Hiss/Im-Fast, commit
+# b79f2d3ae45dc6f1035b8690b8f9c8aef5b8c255, MIT). Minecraft Java 1.21.1
+# NeoForge; the port targets Horizon 26.3 at the campaign pin. Clean-room
+# Rust rewrite from the mod's behaviour (FINDINGS.md); local-only until
+# publishing is approved, publishable under MIT with this source.
+name = "horizon-imfast"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.95"
+license = "MIT"
+description = "Im-Fast for Horizon: the server's movement checks start off"
+publish = false
+
+[lib]
+# This exact source is also injected as a same-crate module by horizon-mixins.
+path = "mixins/imfast/runtime.rs"
+
+[workspace]
+resolver = "2"

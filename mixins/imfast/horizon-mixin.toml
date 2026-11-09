@@ -1,0 +1,37 @@
+[mod]
+id = "imfast"
+version = "0.1.0"
+priority = 100
+
+[compatibility]
+horizon_revision = "1d63e0a5a37a7a708eb0b32b49bf0dfeb28ed8a9"
+
+# The pure decision (standalone crate lib, injected as `crate::game::imfast`):
+# which rules the checks read, the console line for one, and when a world's
+# rules are still to be set.
+[[module]]
+id = "runtime"
+file = "crates/horizon-client/src/game.rs"
+name = "imfast"
+source = "runtime.rs"
+
+# Game-side glue: the state the hook shares and the console lines it runs.
+[[module]]
+id = "state"
+file = "crates/horizon-client/src/game.rs"
+name = "imfast_state"
+source = "support.rs"
+
+# The end of each authoritative server tick (API 4), where the console is
+# reachable: set the two movement-check rules off once per open world.
+[[injection]]
+id = "server-tick"
+hook = "server_tick"
+hook_version = 1
+kind = "HEAD"
+helper = "server_tick.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "context", ty = "&NativeLifecycleContext", value = "context" },
+  { name = "phase", ty = "ServerTickPhase", value = "phase" },
+]
